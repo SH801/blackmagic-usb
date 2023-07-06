@@ -1,0 +1,5 @@
+fixedint
+libusb1
+matplotlib
+opencv-python
+websockets

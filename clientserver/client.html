@@ -1,0 +1,59 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Camera client</title>
+
+<style>
+    
+    body {
+        margin:     0px;
+        padding:    0px;
+        height:     100%; 
+        overflow:   hidden;
+    }
+    img {
+        max-width:  100%;
+        height:     auto;
+    }
+
+
+</style>
+
+</head>
+<body>
+
+<form>
+    <input type="text" id="value">
+    <input type="button" onClick="sendValue('onFocusPullSetInt');" value="Focus (0-65535)">
+    <input type="button" onClick="sendValue('onISOChanged');" value="ISO (Index=0,1,2...)">
+    <input type="button" onClick="sendValue('onWhiteBalanceChanged');" value="White Balance">
+
+
+</form>
+
+<script type="text/javascript">
+
+function sendValue(action) {
+    value = document.getElementById('value').value;
+    console.log(webSocket.send(JSON.stringify({'action': action, 'value': value})));
+}
+
+var webSocket = new WebSocket("ws://localhost:8000");
+webSocket.onopen = function (event) {
+  console.log("Socket is connected.");
+}
+
+webSocket.onmessage = function(event) {
+  console.log(`[message] Data received from server: ${event.data}`);
+};
+
+webSocket.onerror = function(event) {
+  console.log('Socket error', event);
+};
+
+webSocket.onclose = function(event) {
+  console.log('Socket is closed');
+}
+</script>
+</body>
+</html>
